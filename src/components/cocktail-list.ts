@@ -37,16 +37,43 @@ const CocktailList = () => {
 
   return html`
     <style>
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
+      .cocktail-card {
+        background: #edf7d2;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
         display: flex;
-        flex-direction: row;
         gap: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        align-items: flex-start;
+      }
+      .cocktail-image {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 16px;
+      }
+
+      .text-box {
+        width: 100%;
       }
     </style>
     ${cocktails.map((cocktail) => {
-      return html` <div><p>${cocktail.strDrink}</p></div>`;
+      return html`
+        <div class="cocktail-card">
+          <img
+            class="cocktail-image"
+            src=${cocktail.strDrinkThumb}
+            alt=${cocktail.strDrink}
+          />
+          <div class="text-box">
+            <h2>${cocktail.strDrink}</h2>
+            <p>${cocktail.strInstructions}</p>
+          
+            </div>
+          </div>
+        </div>
+      `;
     })}
   `;
 };
