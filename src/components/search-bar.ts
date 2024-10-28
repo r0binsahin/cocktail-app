@@ -6,13 +6,11 @@ function SearchBar() {
 
   const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();
-
     const event = new CustomEvent('search', {
       detail: query,
       bubbles: true,
       composed: true,
     });
-
     dispatchEvent(event);
   };
 
@@ -24,8 +22,31 @@ function SearchBar() {
         border-radius: 16px;
         background-color: #edf7d2;
       }
-    </style>
+      input {
+        padding: 16px;
+        font-size: 24px;
+        width: 100%;
+        background-color: transparent;
+        border-radius: 16px;
+        border: none;
+      }
 
+      input:focus {
+        outline: none;
+      }
+      button {
+        padding: 8px 16px;
+        font-size: 20px;
+        border-top-right-radius: 16px;
+        border-bottom-right-radius: 16px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border: none;
+        background-color: #386c0b;
+        color: #fff;
+        opacity: 0.8;
+      }
+    </style>
     <form class="search-container" @submit=${handleSubmit}>
       <input
         type="text"

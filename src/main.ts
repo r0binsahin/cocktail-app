@@ -15,11 +15,32 @@ const CocktailApp = () => {
         flex-direction: row;
         gap: 20px;
       }
+      .results {
+        flex: 2;
+      }
+      .shopping {
+        grid-column: 2;
+        position: sticky;
+        top: 20px;
+      }
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+        }
+
+        .shopping {
+          position: static;
+        }
+      }
     </style>
     <div class="container">
-      <search-bar></search-bar>
-      <cocktail-list></cocktail-list>
-      <shopping-list></shopping-list>
+      <div class="results">
+        <search-bar></search-bar>
+        <cocktail-list></cocktail-list>
+      </div>
+      <div class="shopping">
+        <shopping-list></shopping-list>
+      </div>
     </div>
   `;
 };
