@@ -6,22 +6,39 @@ const CocktailList = () => {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const showToast = (message: string) => {
+    const event = new CustomEvent('show-toast', {
+      detail: message,
+      bubbles: true,
+      composed: true,
+    });
+    dispatchEvent(event);
+  };
+
   const searchCocktails = async (query: string) => {
+    if (!query.trim()) {
+      showToast('Please enter a search term');
+      return;
+    }
+
     setLoading(true);
+
     try {
       const response = await fetch(
         `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${query}`
       );
+
       const data = await response.json();
       setCocktails(data.drinks || []);
 
       if (data.drinks && data.drinks.length) {
-        console.log('res:', data.drinks);
+        showToast('Here are the results.');
       } else {
-        console.log('something went wrong');
+        showToast('No results found.');
       }
     } catch (error) {
       console.error('Search error:', error);
+      showToast('Error fetching cocktails.');
     }
     setLoading(false);
   };
@@ -51,6 +68,8 @@ const CocktailList = () => {
     });
 
     dispatchEvent(event);
+
+    showToast('Ingredients added to shopping list.');
   };
 
   useEffect(() => {

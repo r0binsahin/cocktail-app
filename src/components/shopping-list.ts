@@ -27,6 +27,14 @@ const ShoppingList = () => {
 
   const removeIngredient = (index: number) => {
     setIngredients((prev) => prev!.filter((_, i) => i !== index));
+
+    const event = new CustomEvent('show-toast', {
+      detail: 'Ingredient removed from shopping list.',
+      bubbles: true,
+      composed: true,
+    });
+
+    dispatchEvent(event);
   };
 
   const printList = () => {
@@ -34,32 +42,33 @@ const ShoppingList = () => {
 
     if (printWindow) {
       printWindow.document.write(`
-        <html>
-          <head>
-            <title>Shopping List</title>
-            <style>
-              body { font-family: Arial, sans-serif; padding: 20px; }
-              h1 { margin-bottom: 20px; }
-              ul { list-style-type: none; padding: 0; }
-              li { margin-bottom: 10px; }
-            </style>
-          </head>
-          <body>
-            <h1>Cocktail Shopping List</h1>
-            <ul>
-              ${ingredients
-                .map((ing) => `<li>${ing.measure} ${ing.name}</li>`)
-                .join('')}
-            </ul>
-          </body>
-        </html>
-      `);
+          <html>
+            <head>
+              <title>Shopping List</title>
+              <style>
+                body { font-family: Arial, sans-serif; padding: 20px; }
+                h1 { margin-bottom: 20px; }
+                ul { list-style-type: none; padding: 0; }
+                li { margin-bottom: 10px; }
+              </style>
+            </head>
+            <body>
+              <h1>Cocktail Shopping List</h1>
+              <ul>
+                ${ingredients
+                  .map((ing) => `<li>${ing.measure} ${ing.name}</li>`)
+                  .join('')}
+              </ul>
+            </body>
+          </html>
+        `);
 
       printWindow.document.close();
 
       printWindow.print();
     }
   };
+
   useEffect(() => {
     window.addEventListener('add-ingredients', ((e: CustomEvent) => {
       addIngredients(e.detail);
@@ -76,7 +85,7 @@ const ShoppingList = () => {
     <style>
       .shopping-list {
         min-width: 350px;
-        height: 90vh;
+        height: 60vh;
         background: white;
         border-radius: 16px;
         padding: 20px;

@@ -4,6 +4,7 @@ import { html } from 'lit-html';
 import './components/cocktail-list';
 import './components/search-bar';
 import './components/shopping-list';
+import './components/toast-message';
 
 const CocktailApp = () => {
   return html`
@@ -14,6 +15,7 @@ const CocktailApp = () => {
         display: flex;
         flex-direction: row;
         gap: 20px;
+        position: relative;
       }
       .results {
         flex: 2;
@@ -41,6 +43,7 @@ const CocktailApp = () => {
       <div class="shopping">
         <shopping-list></shopping-list>
       </div>
+      <toast-message></toast-message>
     </div>
   `;
 };
