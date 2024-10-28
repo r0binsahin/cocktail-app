@@ -27,14 +27,38 @@ const ShoppingList = () => {
 
   const removeIngredient = (index: number) => {
     setIngredients((prev) => prev!.filter((_, i) => i !== index));
+  };
 
-    const event = new CustomEvent('show-toast', {
-      detail: 'Ingredient removed from shopping list.',
-      bubbles: true,
-      composed: true,
-    });
+  const printList = () => {
+    const printWindow = window.open('', '', 'width=600,height=600');
 
-    dispatchEvent(event);
+    if (printWindow) {
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Shopping List</title>
+            <style>
+              body { font-family: Arial, sans-serif; padding: 20px; }
+              h1 { margin-bottom: 20px; }
+              ul { list-style-type: none; padding: 0; }
+              li { margin-bottom: 10px; }
+            </style>
+          </head>
+          <body>
+            <h1>Cocktail Shopping List</h1>
+            <ul>
+              ${ingredients
+                .map((ing) => `<li>${ing.measure} ${ing.name}</li>`)
+                .join('')}
+            </ul>
+          </body>
+        </html>
+      `);
+
+      printWindow.document.close();
+
+      printWindow.print();
+    }
   };
   useEffect(() => {
     window.addEventListener('add-ingredients', ((e: CustomEvent) => {
@@ -83,6 +107,16 @@ const ShoppingList = () => {
         cursor: pointer;
         font-size: 16px;
       }
+      .print-button {
+        background: #2196f3;
+        color: #fff;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 16px;
+      }
     </style>
     <div class="shopping-list">
       <h2>Shopping List</h2>
@@ -101,6 +135,9 @@ const ShoppingList = () => {
           `
         )}
       </ul>
+      ${ingredients.length > 0
+        ? html`<button class="print-button" @click=${printList}>Print</button>`
+        : html`<p>No ingredients added yet.</p>`}
     </div>
   `;
 };
