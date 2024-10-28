@@ -49,7 +49,41 @@ const ShoppingList = () => {
   }, []);
 
   return html`
-    <style></style>
+    <style>
+      .shopping-list {
+        min-width: 350px;
+        height: 90vh;
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow-y: scroll;
+      }
+      h2 {
+        margin-top: 0;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .remove-button {
+        width: 30px;
+        height: 30px;
+        background: #f44336;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 16px;
+      }
+    </style>
     <div class="shopping-list">
       <h2>Shopping List</h2>
       <ul>
