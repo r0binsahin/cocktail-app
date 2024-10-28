@@ -3,6 +3,7 @@ import { html } from 'lit-html';
 
 import './components/cocktail-list';
 import './components/search-bar';
+import './components/shopping-list';
 
 const CocktailApp = () => {
   return html`
@@ -18,6 +19,7 @@ const CocktailApp = () => {
     <div class="container">
       <search-bar></search-bar>
       <cocktail-list></cocktail-list>
+      <shopping-list></shopping-list>
     </div>
   `;
 };
