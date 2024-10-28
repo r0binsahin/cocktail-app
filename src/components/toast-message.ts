@@ -36,6 +36,17 @@ function ToastMessage() {
         transition: transform 0.3s ease-in-out;
         transform: translateY(${visible ? '0' : '100px'});
       }
+
+      @media (max-width: 768px) {
+        .toast {
+          right: 50%;
+          transform: translate(50%, ${visible ? '0' : '100px'});
+          bottom: 30px;
+          width: max-content;
+          min-width: 200px;
+          max-width: calc(100% - 32px);
+        }
+      }
     </style>
     <div class="toast">${message}</div>
   `;

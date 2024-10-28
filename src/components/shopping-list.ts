@@ -84,7 +84,7 @@ const ShoppingList = () => {
   return html`
     <style>
       .shopping-list {
-        min-width: 350px;
+        min-width: 300px;
         height: 60vh;
         background: white;
         border-radius: 16px;
