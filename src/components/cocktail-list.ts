@@ -87,6 +87,37 @@ const CocktailList = () => {
       .text-box {
         width: 100%;
       }
+
+      .btn-box {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+      }
+      .add-button {
+        width: 48px;
+        height: 48px;
+        background: #386c0b;
+        color: #fff;
+        border: none;
+        padding: 16px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      .loading {
+        text-align: center;
+        padding: 20px;
+        color: #fff;
+      }
+
+      .ingredients-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 10px 0 0 0;
+      }
+      .ingredient-item {
+        margin-bottom: 5px;
+      }
     </style>
 
     ${loading
