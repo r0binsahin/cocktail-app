@@ -2,6 +2,7 @@ import { component } from 'haunted';
 import { html } from 'lit-html';
 
 import './components/cocktail-list';
+import './components/search-bar';
 
 const CocktailApp = () => {
   return html`
@@ -15,6 +16,7 @@ const CocktailApp = () => {
       }
     </style>
     <div class="container">
+      <search-bar></search-bar>
       <cocktail-list></cocktail-list>
     </div>
   `;
