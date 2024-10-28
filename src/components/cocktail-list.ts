@@ -1,6 +1,6 @@
 import { component, useEffect, useState } from 'haunted';
 import { html } from 'lit-html';
-import { Cocktail } from '../types';
+import { Cocktail, Ingredient } from '../types';
 
 const CocktailList = () => {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
@@ -21,6 +21,33 @@ const CocktailList = () => {
     } catch (error) {
       console.error('Search error:', error);
     }
+  };
+
+  const getIngredients = (cocktail: Cocktail): Ingredient[] => {
+    const ingredients: Ingredient[] = [];
+
+    for (let i = 1; i <= 15; i++) {
+      const ingredient = cocktail[`strIngredient${i}`];
+      const measure = cocktail[`strMeasure${i}`];
+
+      if (ingredient) {
+        ingredients.push({
+          name: ingredient,
+          measure: measure || '',
+        });
+      }
+    }
+    return ingredients;
+  };
+
+  const addToShoppingList = (ingredients: Ingredient[]) => {
+    const event = new CustomEvent('add-ingredients', {
+      detail: ingredients,
+      bubbles: true,
+      composed: true,
+    });
+
+    dispatchEvent(event);
   };
 
   useEffect(() => {
@@ -59,6 +86,7 @@ const CocktailList = () => {
       }
     </style>
     ${cocktails.map((cocktail) => {
+      const ingredients = getIngredients(cocktail);
       return html`
         <div class="cocktail-card">
           <img
@@ -69,8 +97,26 @@ const CocktailList = () => {
           <div class="text-box">
             <h2>${cocktail.strDrink}</h2>
             <p>${cocktail.strInstructions}</p>
-          
             </div>
+            <ul class="ingredients-list">
+                    ${ingredients.map(
+                      (ingredient) =>
+                        html`<li class="ingredient-item">
+                          ${ingredient.name} ${ingredient.measure}
+                        </li>`
+                    )}  
+                </ul>
+                <div class="btn-box">
+                  <button
+                    class="add-button"
+                    @click=${() => addToShoppingList(ingredients)}
+                  >
+                    +
+                  </button>
+                </div>
+       
+
+            
           </div>
         </div>
       `;
