@@ -4,8 +4,10 @@ import { Cocktail, Ingredient } from '../types';
 
 const CocktailList = () => {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const searchCocktails = async (query: string) => {
+    setLoading(true);
     try {
       const response = await fetch(
         `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${query}`
@@ -21,6 +23,7 @@ const CocktailList = () => {
     } catch (error) {
       console.error('Search error:', error);
     }
+    setLoading(false);
   };
 
   const getIngredients = (cocktail: Cocktail): Ingredient[] => {
@@ -85,26 +88,28 @@ const CocktailList = () => {
         width: 100%;
       }
     </style>
-    ${cocktails.map((cocktail) => {
-      const ingredients = getIngredients(cocktail);
-      return html`
-        <div class="cocktail-card">
-          <img
-            class="cocktail-image"
-            src=${cocktail.strDrinkThumb}
-            alt=${cocktail.strDrink}
-          />
-          <div class="text-box">
-            <h2>${cocktail.strDrink}</h2>
-            <p>${cocktail.strInstructions}</p>
-            </div>
-            <ul class="ingredients-list">
-                    ${ingredients.map(
-                      (ingredient) =>
-                        html`<li class="ingredient-item">
-                          ${ingredient.name} ${ingredient.measure}
-                        </li>`
-                    )}  
+
+    ${loading
+      ? html`<div class="loading">Searching...</div>`
+      : cocktails.map((cocktail) => {
+          const ingredients = getIngredients(cocktail);
+          return html`
+            <div class="cocktail-card">
+              <img
+                class="cocktail-image"
+                src=${cocktail.strDrinkThumb}
+                alt=${cocktail.strDrink}
+              />
+              <div class="text-box">
+                <h2>${cocktail.strDrink}</h2>
+                <p>${cocktail.strInstructions}</p>
+                <ul class="ingredients-list">
+                  ${ingredients.map(
+                    (ingredient) =>
+                      html`<li class="ingredient-item">
+                        ${ingredient.name} ${ingredient.measure}
+                      </li>`
+                  )}
                 </ul>
                 <div class="btn-box">
                   <button
@@ -114,13 +119,10 @@ const CocktailList = () => {
                     +
                   </button>
                 </div>
-       
-
-            
-          </div>
-        </div>
-      `;
-    })}
+              </div>
+            </div>
+          `;
+        })}
   `;
 };
 
