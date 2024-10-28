@@ -4,7 +4,6 @@ import { Cocktail, Ingredient } from '../types';
 
 const CocktailList = () => {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
-  const [loading, setLoading] = useState(false);
 
   const showToast = (message: string) => {
     const event = new CustomEvent('show-toast', {
@@ -21,7 +20,7 @@ const CocktailList = () => {
       return;
     }
 
-    setLoading(true);
+    showToast('Searching...');
 
     try {
       const response = await fetch(
@@ -40,7 +39,6 @@ const CocktailList = () => {
       console.error('Search error:', error);
       showToast('Error fetching cocktails.');
     }
-    setLoading(false);
   };
 
   const getIngredients = (cocktail: Cocktail): Ingredient[] => {
@@ -139,40 +137,38 @@ const CocktailList = () => {
       }
     </style>
 
-    ${loading
-      ? html`<div class="loading">Searching...</div>`
-      : cocktails.map((cocktail) => {
-          const ingredients = getIngredients(cocktail);
-          return html`
-            <div class="cocktail-card">
-              <img
-                class="cocktail-image"
-                src=${cocktail.strDrinkThumb}
-                alt=${cocktail.strDrink}
-              />
-              <div class="text-box">
-                <h2>${cocktail.strDrink}</h2>
-                <p>${cocktail.strInstructions}</p>
-                <ul class="ingredients-list">
-                  ${ingredients.map(
-                    (ingredient) =>
-                      html`<li class="ingredient-item">
-                        ${ingredient.name} ${ingredient.measure}
-                      </li>`
-                  )}
-                </ul>
-                <div class="btn-box">
-                  <button
-                    class="add-button"
-                    @click=${() => addToShoppingList(ingredients)}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
+    ${cocktails.map((cocktail) => {
+      const ingredients = getIngredients(cocktail);
+      return html`
+        <div class="cocktail-card">
+          <img
+            class="cocktail-image"
+            src=${cocktail.strDrinkThumb}
+            alt=${cocktail.strDrink}
+          />
+          <div class="text-box">
+            <h2>${cocktail.strDrink}</h2>
+            <p>${cocktail.strInstructions}</p>
+            <ul class="ingredients-list">
+              ${ingredients.map(
+                (ingredient) =>
+                  html`<li class="ingredient-item">
+                    ${ingredient.name} ${ingredient.measure}
+                  </li>`
+              )}
+            </ul>
+            <div class="btn-box">
+              <button
+                class="add-button"
+                @click=${() => addToShoppingList(ingredients)}
+              >
+                +
+              </button>
             </div>
-          `;
-        })}
+          </div>
+        </div>
+      `;
+    })}
   `;
 };
 
